@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { Button } from '@/components/ui/button'
+import { ArrowRight } from 'lucide-react'
 
 function App() {
   return (
@@ -12,11 +12,10 @@ function App() {
         color="rose-600"
       >
         Teste
-
         <ArrowRight className="w-4 h-4" />
       </Button>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
