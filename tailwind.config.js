@@ -21,7 +21,6 @@ module.exports = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
@@ -51,6 +50,28 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        // CUSTOM COLORS
+        orange: {
+          base: '#f24d0d',
+          dark: ' #c43c08',
+        },
+        blue: {
+          light: '#d7eff9',
+          base: '#5ec5fd',
+          dark: '#009cf0',
+        },
+        white: '#ffffff',
+        background: '#fbf4f4',
+        shape: '#f5eaea',
+        gray: {
+          100: '#adadad',
+          200: '#949494',
+          300: '#666666',
+          400: '#3d3d3d',
+          500: '#1d1d1d',
+        },
+        danger: '#dc3545',
+        success: '#28a745',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -70,6 +91,85 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      fontSize: {
+        'title-lg': [
+          '1.75rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'bold',
+          },
+        ],
+        'title-md': [
+          '1.5rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'bold',
+          },
+        ],
+        'title-sm': [
+          '1.25rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'bold',
+          },
+        ],
+        subtitle: [
+          '1rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'semi-bold',
+          },
+        ],
+        'body-md': [
+          '1rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'regular',
+          },
+        ],
+        'body-sm': [
+          '0.875rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'regular',
+          },
+        ],
+        'body-xs': [
+          '0.75rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'regular',
+          },
+        ],
+        'label-md': [
+          '0.75rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'medium',
+          },
+        ],
+        'label-sm': [
+          '0.675rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'medium',
+          },
+        ],
+        'action-md': [
+          '1rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'medium',
+          },
+        ],
+        'action-sm': [
+          '0.875rem',
+          {
+            lineHeight: '1.2',
+            fontWeight: 'medium',
+          },
+        ],
       },
     },
   },
