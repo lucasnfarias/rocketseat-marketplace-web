@@ -1,11 +1,33 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { z } from 'zod'
+
+const signInForm = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+})
+
+type SignInForm = z.infer<typeof signInForm>
 
 export function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInForm>({
+    resolver: zodResolver(signInForm),
+  })
+
+  function handleSignIn(data: SignInForm) {
+    alert(JSON.stringify(data, null, 2))
+  }
+
   return (
     <>
       <Helmet title="Login" />
@@ -20,23 +42,34 @@ export function Login() {
             </p>
           </div>
 
-          <form>
+          <form onSubmit={handleSubmit(handleSignIn)}>
             <Label htmlFor="email">e-mail</Label>
             <Input
               type="email"
-              name="email"
               id="email"
               placeholder="Seu e-mail cadastrado"
-              className="mb-5"
+              {...register('email')}
             />
+            {errors.email && (
+              <p className="text-rose-600 text-xs mt-1">
+                {errors.email.message}
+              </p>
+            )}
 
-            <Label htmlFor="password">senha</Label>
+            <Label htmlFor="password" className="mt-5">
+              senha
+            </Label>
             <Input
               type="password"
-              name="password"
               id="password"
               placeholder="Sua senha de acesso"
+              {...register('password')}
             />
+            {errors.password && (
+              <p className="text-rose-600 text-xs mt-1">
+                {errors.password.message}
+              </p>
+            )}
 
             <Button
               type="submit"
