@@ -116,7 +116,7 @@ export function Login() {
             variant="outline"
             className="h-[56px] flex items-center justify-between w-full bg-white text-action-md text-orange-base rounded-xl px-5 py-4"
           >
-            <Link to="sign-up">
+            <Link to="/register">
               Cadastrar
               <ArrowRight className="w-5 h-5" />
             </Link>

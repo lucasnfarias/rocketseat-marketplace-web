@@ -25,13 +25,13 @@ const sizeClassName = {
 export function AvatarImage({ avatar, size = 'default' }: AvatarImageProps) {
   return (
     <div
-      className={`bg-gray-200 border-[1px] border-shape p-1 rounded-[6px] flex items-center justify-center ${sizeClassName[size].avatar}`}
+      className={` border-[1px] border-shape p-1 rounded-[6px] flex items-center justify-center ${sizeClassName[size].avatar}`}
     >
       {avatar ? (
         <img src={avatar.url} alt="" />
       ) : (
         <UserRound
-          className={`text-shape ${sizeClassName[size].defaultIcon}`}
+          className={`text-orange-base ${sizeClassName[size].defaultIcon}`}
         />
       )}
     </div>

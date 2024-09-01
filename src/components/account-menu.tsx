@@ -21,7 +21,7 @@ export function AccountMenu() {
   const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
-    staleTime: Infinity,
+    staleTime: 0, // CHECK CACHE BETWEEN LOGINS
   })
 
   const { mutateAsync: signOutFn, isPending: isSigningOut } = useMutation({
