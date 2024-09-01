@@ -1,3 +1,4 @@
+import { Header } from '@/components/header'
 import { api } from '@/lib/axios'
 import { isAxiosError } from 'axios'
 import { useEffect } from 'react'
@@ -12,10 +13,9 @@ export function AppLayout() {
       (error) => {
         if (isAxiosError(error)) {
           const status = error.response?.status
-          const code = error.response?.data.code
 
-          if (status === 401 && code === 'UNAUTHORIZED') {
-            navigate('/sign-in', { replace: true })
+          if (status === 401 || status === 403) {
+            navigate('/login', { replace: true })
           }
         }
 
@@ -30,7 +30,7 @@ export function AppLayout() {
 
   return (
     <div className="flex min-h-screen flex-col antialiased">
-      <header>HEADER</header>
+      <Header />
       <div className="flex flex-1 flex-col gap-4 p-8 pt-6">
         <Outlet />
       </div>

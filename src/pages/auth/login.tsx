@@ -1,11 +1,15 @@
+import { signIn } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { ArrowRight } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const signInForm = z.object({
@@ -16,6 +20,8 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>
 
 export function Login() {
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -24,8 +30,27 @@ export function Login() {
     resolver: zodResolver(signInForm),
   })
 
-  function handleSignIn(data: SignInForm) {
-    alert(JSON.stringify(data, null, 2))
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
+  })
+
+  async function handleSignIn(data: SignInForm) {
+    try {
+      const { accessToken } = await authenticate(data)
+
+      toast.success('Usuário autenticado com sucesso!')
+      localStorage.setItem('@rocketseat-marketplace/accessToken', accessToken)
+      navigate('/')
+    } catch (error) {
+      if (error instanceof AxiosError && error.status === 403) {
+        toast.error('Email e/ou senha inválidos.')
+      } else {
+        toast.error(
+          'Ocorreu um erro ao tentar autenticar. Contate a nossa equipe de suporte.',
+        )
+        console.error(error)
+      }
+    }
   }
 
   return (
@@ -56,7 +81,7 @@ export function Login() {
               </p>
             )}
 
-            <Label htmlFor="password" className="mt-5">
+            <Label htmlFor="password" className="flex mt-5">
               senha
             </Label>
             <Input
