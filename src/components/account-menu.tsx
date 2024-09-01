@@ -27,6 +27,7 @@ export function AccountMenu() {
   const { mutateAsync: signOutFn, isPending: isSigningOut } = useMutation({
     mutationFn: signOut,
     onSuccess: () => {
+      localStorage.removeItem('@rocketseat-marketplace/accessToken')
       navigate('/login', { replace: true })
     },
   })
@@ -48,7 +49,7 @@ export function AccountMenu() {
 
       <DropdownMenuContent
         align="end"
-        className="w-56 border-none rounded-xl bg-white p-4"
+        className="w-56 border-none rounded-xl bg-white p-4 mt-2"
       >
         <DropdownMenuLabel className="flex flex-col">
           {isLoadingProfile ? (

@@ -171,6 +171,10 @@ module.exports = {
           },
         ],
       },
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+        'dm-sans': ['DM-Sans', 'sans-serif'],
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
