@@ -3,6 +3,7 @@ import { api } from '@/lib/axios'
 import { isAxiosError } from 'axios'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export function AppLayout() {
   const navigate = useNavigate()
@@ -15,6 +16,9 @@ export function AppLayout() {
           const status = error.response?.status
 
           if (status === 401 || status === 403) {
+            toast.error('Parece que você não está autenticado :(', {
+              description: 'Faça seu login novamente',
+            })
             navigate('/login', { replace: true })
           }
         }

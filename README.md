@@ -1,50 +1,46 @@
-# React + TypeScript + Vite
+# Rocketseat Marketplace
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## How to run
 
-Currently, two official plugins are available:
+- As the backend we used another project from Rocketseat:
+  - https://github.com/rocketseat-education/mba-marketplace-server
+  - To start it follow the steps on the README
+- To run this project:
+  - run `npm i` (i used node 20)
+  - run `npm run dev`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Screenshots
 
-## Expanding the ESLint configuration
+<details>
+  <summary>Login page</summary>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+![Login page](.github/images/screenshots/login.png)
 
-- Configure the top-level `parserOptions` property like this:
+</details>
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+<details>
+  <summary>Dashboard page</summary>
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+![Dashboard page](.github/images/screenshots/dashboard.png)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+</details>
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+<details>
+  <summary>Products page</summary>
+
+![Products page](.github/images/screenshots/products.png)
+
+</details>
+
+## Refs
+
+- [Figma](<https://www.figma.com/design/fV55yqePjTv7MN0C4pqUye/Gest%C3%A3o-de-Marketplace-(Community)?node-id=3-376&t=c3s2mj0gDckGL0Et-1>)
+
+**On this project we worked with the following tools/dependencies:**
+
+- [Vite](https://vitejs.dev/guide/)
+- [Tailwind CSS](https://tailwindcss.com/docs/installation)
+- [UI Shadcn](https://ui.shadcn.com/docs)
+- [Sonner](https://sonner.emilkowal.ski/)
+- [Zod](https://zod.dev/)
+- [React Query](https://tanstack.com/query/latest/docs/framework/react/overview)
