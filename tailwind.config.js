@@ -53,7 +53,7 @@ module.exports = {
         // CUSTOM COLORS
         orange: {
           base: '#f24d0d',
-          dark: ' #c43c08',
+          dark: '#c43c08',
         },
         blue: {
           light: '#d7eff9',

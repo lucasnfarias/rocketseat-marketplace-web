@@ -15,7 +15,7 @@ export function Dashboard() {
         </p>
       </header>
 
-      <div className="grid grid-cols-4 grid-rows-3 gap-6">
+      <div className="grid grid-cols-4 grid-rows-1 gap-6">
         <div className="flex flex-col col-span-1 gap-[15px]">
           <SoldProductsCard />
           <AdvertisedProductsCard />

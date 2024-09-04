@@ -147,7 +147,7 @@ export function DailyVisitorsChart() {
         <DateRangePicker date={dateRange} onDateChange={setDateRange} />
       </CardHeader>
 
-      <CardContent className="h-full">
+      <CardContent>
         {chartData ? (
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={chartData} style={{ fontSize: 12 }}>
