@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Loader2 } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
@@ -25,7 +25,7 @@ export function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting: isLoadingSignin },
   } = useForm<SignInForm>({
     resolver: zodResolver(signInForm),
   })
@@ -101,7 +101,11 @@ export function Login() {
               className="h-[56px] flex items-center justify-between w-full bg-orange-base text-action-md text-white rounded-xl px-5 py-4 mt-12"
             >
               Acessar
-              <ArrowRight className="w-5 h-5" />
+              {isLoadingSignin ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <ArrowRight className="w-5 h-5" />
+              )}
             </Button>
           </form>
         </div>
@@ -115,6 +119,7 @@ export function Login() {
             asChild
             variant="outline"
             className="h-[56px] flex items-center justify-between w-full bg-white text-action-md text-orange-base rounded-xl px-5 py-4"
+            disabled={isLoadingSignin}
           >
             <Link to="/register">
               Cadastrar

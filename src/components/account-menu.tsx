@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { LogOut } from 'lucide-react'
+import { Loader2, LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 export function AccountMenu() {
@@ -76,7 +76,11 @@ export function AccountMenu() {
         >
           <button className="w-full" onClick={() => signOutFn()}>
             <span className="text-action-sm font-semibold">Sair</span>
-            <LogOut className="ml-auto h-4 w-4" />
+            {isSigningOut ? (
+              <Loader2 className="ml-auto h-4 w-4 animate-spin" />
+            ) : (
+              <LogOut className="ml-auto h-4 w-4" />
+            )}
           </button>
         </DropdownMenuItem>
       </DropdownMenuContent>
