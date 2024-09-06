@@ -108,7 +108,7 @@ module.exports = {
           },
         ],
         'title-sm': [
-          '1.25rem',
+          '1.125rem',
           {
             lineHeight: '1.2',
             fontWeight: 'bold',

@@ -25,7 +25,7 @@ export function StatusChip({ status }: StatusChipProps) {
 
   return (
     <span
-      className={`text-label-sm text-white uppercase px-2 py-1 rounded-full ${getStatusColor(status)}`}
+      className={`text-label-sm w-fit text-white uppercase px-2 py-1 rounded-full ${getStatusColor(status)}`}
     >
       {getStatusTitle(status)}
     </span>

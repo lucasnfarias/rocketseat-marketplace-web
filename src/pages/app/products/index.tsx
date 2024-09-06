@@ -13,14 +13,13 @@ export function Products() {
   const status = searchParams.get('status')
 
   const { data: result, isLoading: isLoadingProducts } = useQuery({
-    queryKey: ['orders', search, status],
+    queryKey: ['products', search, status],
     queryFn: () =>
       getProducts({
         search,
         status:
           status === 'all' ? null : (status as GetProductsQuery['status']),
       }),
-    staleTime: 0,
   })
 
   return (
