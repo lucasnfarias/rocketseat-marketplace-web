@@ -1,9 +1,8 @@
 import { api } from '@/lib/axios'
 
 export interface GetProductsQuery {
-  page: number
-  status: 'available' | 'sold' | 'cancelled'
-  search?: string
+  status: 'available' | 'sold' | 'cancelled' | null
+  search: string | null
 }
 
 export interface GetProductsResponse {
@@ -12,6 +11,7 @@ export interface GetProductsResponse {
     title: string
     description: string
     priceInCents: number
+    status: 'available' | 'sold' | 'cancelled'
     owner: {
       id: string
       name: string
@@ -34,10 +34,9 @@ export interface GetProductsResponse {
   }[]
 }
 
-export async function getProducts({ page, status, search }: GetProductsQuery) {
+export async function getProducts({ status, search }: GetProductsQuery) {
   const { data } = await api.get<GetProductsResponse>('/products', {
     params: {
-      page,
       status,
       search,
     },
