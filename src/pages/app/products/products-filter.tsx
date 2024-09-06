@@ -84,6 +84,7 @@ export function ProductsFilter() {
                   </SelectTrigger>
 
                   <SelectContent>
+                    <SelectItem value="all">Todos os status</SelectItem>
                     <SelectItem value="available">Anunciado</SelectItem>
                     <SelectItem value="sold">Vendido</SelectItem>
                     <SelectItem value="cancelled">Cancelado</SelectItem>

@@ -17,7 +17,8 @@ export function Products() {
     queryFn: () =>
       getProducts({
         search,
-        status: status as GetProductsQuery['status'],
+        status:
+          status === 'all' ? null : (status as GetProductsQuery['status']),
       }),
     staleTime: 0,
   })
