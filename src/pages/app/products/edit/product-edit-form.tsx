@@ -50,6 +50,8 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
     },
   })
 
+  const isSoldOrInactive = product.status !== 'available'
+
   function handleProductEdit(data: ProductsEditForm) {
     console.log(data)
   }
@@ -77,6 +79,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                 type="text"
                 id="title"
                 placeholder="O nome do seu produto"
+                disabled={isSoldOrInactive}
                 {...register('title')}
               />
             </div>
@@ -93,6 +96,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                 id="price"
                 placeholder="100,00"
                 className="pl-6"
+                disabled={isSoldOrInactive}
                 {...register('price')}
               />
               <span className="absolute top-[50%] text-orange-base">R$</span>
@@ -109,6 +113,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
             id="description"
             className="resize-none mb-5"
             placeholder="Uma descrição épica aqui..."
+            disabled={isSoldOrInactive}
             {...register('description')}
           />
 
@@ -121,13 +126,13 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
           <Controller
             name="category"
             control={control}
-            render={({ field: { name, onChange, value, disabled } }) => {
+            render={({ field: { name, onChange, value } }) => {
               return (
                 <Select
                   name={name}
                   onValueChange={onChange}
                   value={value}
-                  disabled={disabled}
+                  disabled={isSoldOrInactive}
                 >
                   <SelectTrigger className="h-8 w-full">
                     <SelectValue placeholder="Status" />
@@ -151,12 +156,14 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
             <Button
               variant="outline"
               className="rounded-[10px] border-2 border-orange-base bg-transparent text-orange-base w-full"
+              disabled={isSoldOrInactive}
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               className="rounded-[10px] bg-orange-base text-white w-full"
+              disabled={isSoldOrInactive}
             >
               Salvar e atualizar
             </Button>
