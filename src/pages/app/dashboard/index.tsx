@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet-async'
 
 export function Dashboard() {
   return (
-    <div className="w-full max-w-[1030px] mx-auto">
+    <div className="w-full max-w-[1100px] mx-auto">
       <Helmet title="Dashboard" />
       <header className="mt-16 mb-10">
         <h1 className="text-title-md text-gray-500 mb-2">Últimos 30 dias</h1>

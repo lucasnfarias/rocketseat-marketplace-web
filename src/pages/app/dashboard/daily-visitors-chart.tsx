@@ -42,7 +42,11 @@ export function DailyVisitorsChart() {
       <CardContent>
         {chartData ? (
           <ResponsiveContainer width="100%" height={240}>
-            <LineChart data={chartData.viewsPerDay} style={{ fontSize: 12 }}>
+            <LineChart
+              data={chartData.viewsPerDay}
+              style={{ fontSize: 12 }}
+              margin={{ top: 20, right: 10, left: 10, bottom: 10 }}
+            >
               <XAxis
                 dataKey="date"
                 stroke="#888"
@@ -56,7 +60,7 @@ export function DailyVisitorsChart() {
                 axisLine={false}
                 tickLine={false}
                 dx={-4}
-                width={27}
+                width={30}
               />
 
               <CartesianGrid
