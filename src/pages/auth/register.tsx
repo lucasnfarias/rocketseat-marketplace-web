@@ -101,7 +101,7 @@ export function Register() {
       <div className="bg-white w-full flex-1 flex-col items-center justify-center rounded-xl px-20 py-[72px]">
         <div className="flex flex-col">
           <div className="mb-12">
-            <h2 className="text-title-md text-gray-500 mb-2 font-dm-sans">
+            <h2 className="text-title-md font-dm-sans text-gray-500 mb-2">
               Crie sua conta
             </h2>
             <p className="text-body-sm text-gray-300">

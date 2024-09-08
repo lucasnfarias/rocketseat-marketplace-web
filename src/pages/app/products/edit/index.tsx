@@ -119,7 +119,7 @@ export function ProductsEdit() {
               <p className="text-action-sm">Voltar</p>
             </Link>
           </Button>
-          <h1 className="text-title-md text-gray-500 font-semibold mb-2">
+          <h1 className="text-title-md font-dm-sans text-gray-500 font-semibold mb-2">
             Editar produto
           </h1>
           <p className="text-body-sm text-gray-300">
@@ -180,8 +180,8 @@ export function ProductsEdit() {
         />
       ) : (
         <div className="flex gap-6">
-          <Skeleton className="w-[400px] h-[340px]" />
-          <Skeleton className="w-[590px] h-[460px]" />
+          <Skeleton className="w-[415px] h-[340px]" />
+          <Skeleton className="w-[685px] h-[460px]" />
         </div>
       )}
     </div>

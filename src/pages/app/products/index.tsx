@@ -26,7 +26,9 @@ export function Products() {
     <div className="w-full max-w-[1100px] mx-auto">
       <Helmet title="Produtos" />
       <header className="mt-10 mb-10">
-        <h1 className="text-title-md text-gray-500 mb-2">Seus produtos</h1>
+        <h1 className="text-title-md font-dm-sans text-gray-500 mb-2">
+          Seus produtos
+        </h1>
         <p className="text-body-sm text-gray-300">
           Acesse gerencie a sua lista de produtos à venda
         </p>
@@ -50,7 +52,7 @@ export function Products() {
               })}
 
           {!isLoadingProducts && !result?.products.length && (
-            <h2 className="text-orange-base text-title-lg font-semibold w-[60%] text-center m-auto">
+            <h2 className="text-orange-base text-title-lg font-dm-sans font-semibold w-[60%] text-center m-auto">
               Você não tem nenhum produto cadastrado :(
             </h2>
           )}

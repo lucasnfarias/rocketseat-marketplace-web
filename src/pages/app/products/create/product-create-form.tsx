@@ -192,7 +192,7 @@ export function ProductCreateForm({ categories }: ProductCreateFormProps) {
 
       <Card className="flex-1 rounded-[20px] p-6">
         <CardHeader className="flex-row items-center justify-between mb-6 p-0 space-y-0">
-          <h3 className="text-title-sm text-gray-300 font-semibold">
+          <h3 className="text-title-sm font-dm-sans text-gray-300 font-semibold">
             Dados do produto
           </h3>
         </CardHeader>

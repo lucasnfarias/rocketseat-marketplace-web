@@ -9,7 +9,9 @@ export function Dashboard() {
     <div className="w-full max-w-[1100px] mx-auto">
       <Helmet title="Dashboard" />
       <header className="mt-10 mb-10">
-        <h1 className="text-title-md text-gray-500 mb-2">Últimos 30 dias</h1>
+        <h1 className="text-title-md font-dm-sans text-gray-500 mb-2">
+          Últimos 30 dias
+        </h1>
         <p className="text-body-sm text-gray-300">
           Confira as estatísticas da sua loja no último mês
         </p>

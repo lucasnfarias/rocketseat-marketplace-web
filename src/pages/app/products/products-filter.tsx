@@ -55,7 +55,7 @@ export function ProductsFilter() {
   return (
     <Card className="col-span-1 rounded-[20px] flex flex-col p-3 h-fit">
       <CardHeader>
-        <CardTitle className="text-title-sm text-gray-300 text-[1.25rem]">
+        <CardTitle className="text-title-sm font-dm-sans text-gray-300 text-[1.25rem]">
           Filtrar
         </CardTitle>
       </CardHeader>

@@ -32,7 +32,7 @@ export function DailyVisitorsChart() {
   return (
     <Card className="rounded-[20px] h-full">
       <CardHeader className="flex w-full flex-row items-center justify-between">
-        <CardTitle className="text-gray-500 text-title-sm">
+        <CardTitle className="text-gray-500 text-title-sm font-dm-sans">
           Visitantes
         </CardTitle>
 

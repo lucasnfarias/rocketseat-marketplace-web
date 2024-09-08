@@ -21,7 +21,7 @@ export function AdvertisedProductsCard() {
         <div className="flex flex-col gap-2 justify-center">
           {productsAvailable ? (
             <>
-              <h3 className="text-title-lg text-gray-400">
+              <h3 className="text-title-lg font-dm-sans text-gray-400">
                 {productsAvailable.amount}
               </h3>
               <p className="text-body-xs text-gray-300 w-1">
