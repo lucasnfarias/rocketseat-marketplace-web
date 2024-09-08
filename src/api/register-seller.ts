@@ -1,8 +1,8 @@
-import { uploadAvatar } from '@/api/upload-avatar'
+import { uploadAttachments } from '@/api/upload-attachments'
 import { api } from '@/lib/axios'
 
 export interface RegisterBody {
-  avatar: File
+  files: FormData
   name: string
   phone: string
   email: string
@@ -26,12 +26,12 @@ export interface RegisterResponse {
 export async function registerSeller({
   name,
   phone,
-  avatar,
+  files,
   email,
   password,
   passwordConfirmation,
 }: RegisterBody) {
-  const { attachments } = await uploadAvatar({ avatar })
+  const { attachments } = await uploadAttachments({ files })
 
   const { data } = await api.post<RegisterResponse>('/sellers', {
     name,

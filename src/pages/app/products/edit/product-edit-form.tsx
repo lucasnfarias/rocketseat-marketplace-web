@@ -2,6 +2,7 @@ import { GetCategoriesResponse } from '@/api/get-categories'
 import { GetProductResponse } from '@/api/get-product'
 import { GetProductsResponse } from '@/api/get-products'
 import { updateProduct, UpdateProductResponse } from '@/api/update-product'
+import { uploadAttachments } from '@/api/upload-attachments'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -18,14 +19,32 @@ import { StatusChip } from '@/pages/app/products/status-chip'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { Loader2 } from 'lucide-react'
+import { ImageUp, Loader2 } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { z } from 'zod'
 
+const MAX_FILE_SIZE = 5000000
+const ACCEPTED_IMAGE_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+]
+
 const productsEditForm = z.object({
+  productImage: z
+    .custom<FileList>()
+    .refine(
+      (files) => !files || files[0]?.size <= MAX_FILE_SIZE,
+      `Max image size is 5MB.`,
+    )
+    .refine(
+      (files) => !files || ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.',
+    ),
   title: z.string(),
   price: z.string(),
   description: z.string(),
@@ -47,13 +66,13 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
     register,
     control,
     handleSubmit,
-    formState: { isSubmitting: isLoadingProductEdit },
+    formState: { errors, isSubmitting: isLoadingProductEdit },
   } = useForm<ProductsEditForm>({
     resolver: zodResolver(productsEditForm),
     defaultValues: {
       title: product.title,
       price: (product.priceInCents / 100)
-        .toLocaleString('pt-BR')
+        .toLocaleString('pt-BR', { minimumFractionDigits: 2 })
         .replace(/\./g, ''),
       description: product.description,
       categoryId: product.category.id,
@@ -102,6 +121,15 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
 
   async function handleProductEdit(data: ProductsEditForm) {
     try {
+      let attachmentsIds = [product.attachments[0].id]
+      if (data.productImage && data.productImage[0]) {
+        const files = new FormData()
+        files.append('files', data.productImage[0])
+
+        const { attachments } = await uploadAttachments({ files })
+        attachmentsIds = [attachments[0].id]
+      }
+
       await updateProductsFn({
         params: { productId: product.id },
         body: {
@@ -110,11 +138,11 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
           priceInCents:
             Number(data.price.replace(/\./g, '').replace(',', '.')) * 100,
           categoryId: data.categoryId,
-          attachmentsIds: [product.attachments[0].id],
+          attachmentsIds,
         },
       })
 
-      toast.success('Produto roduto atualizado com sucesso!')
+      toast.success('Produto atualizado com sucesso!')
     } catch (error) {
       console.error(error)
       switch ((error as AxiosError).status) {
@@ -131,16 +159,53 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
   }
 
   return (
-    <Card className="flex-1 rounded-[20px] p-6">
-      <CardHeader className="flex-row items-center justify-between mb-6 p-0 space-y-0">
-        <h3 className="text-title-sm text-gray-300 font-semibold">
-          Dados do produto
-        </h3>
-        <StatusChip status={product.status} />
-      </CardHeader>
+    <form className="flex gap-6" onSubmit={handleSubmit(handleProductEdit)}>
+      <Controller
+        name="productImage"
+        control={control}
+        render={({ field: { name, onChange, value } }) => {
+          return (
+            <Label
+              htmlFor="productImage"
+              style={{
+                backgroundImage: `url(${value && value[0] ? URL.createObjectURL(value[0]) : product.attachments[0].url})`,
+                cursor: isSoldOrDeactivated ? 'not-allowed' : 'normal',
+              }}
+              className="group max-h-[340px] w-full max-w-[415px] rounded-[20px] bg-center bg-cover hover:cursor-pointer transition-all relative"
+            >
+              <div className="flex flex-col items-center justify-center w-full h-full bg-transparent text-transparent rounded-[20px] group-hover:bg-black group-hover:bg-opacity-20 group-hover:text-white">
+                <ImageUp className="h-10 w-10 mb-4" strokeWidth={1.5} />
+                <p className="text-body-sm text-center max-w-[150px] normal-case font-normal">
+                  Selecione a imagem do produto
+                </p>
+              </div>
+              <Input
+                type="file"
+                id="productImage"
+                name={name}
+                className="hidden"
+                onChange={(e) => onChange(e.target.files)}
+                disabled={isSoldOrDeactivated}
+              />
+              {errors.productImage && (
+                <p className="text-rose-600 text-xs mt-1 absolute">
+                  {errors.productImage.message?.toString()}
+                </p>
+              )}
+            </Label>
+          )
+        }}
+      />
 
-      <CardContent className="p-0">
-        <form onSubmit={handleSubmit(handleProductEdit)}>
+      <Card className="flex-1 rounded-[20px] p-6">
+        <CardHeader className="flex-row items-center justify-between mb-6 p-0 space-y-0">
+          <h3 className="text-title-sm text-gray-300 font-semibold">
+            Dados do produto
+          </h3>
+          <StatusChip status={product.status} />
+        </CardHeader>
+
+        <CardContent className="p-0">
           <div className="flex gap-4 mb-5">
             <div className="w-full">
               <Label
@@ -248,8 +313,8 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
               )}
             </Button>
           </div>
-        </form>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </form>
   )
 }

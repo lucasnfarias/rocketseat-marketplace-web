@@ -71,8 +71,11 @@ export function Register() {
     try {
       const avatarFile = avatar[0]
 
+      const files = new FormData()
+      files.append('files', avatarFile)
+
       const data = await registerNewSeller({
-        avatar: avatarFile,
+        files,
         name,
         phone,
         email,

@@ -174,19 +174,10 @@ export function ProductsEdit() {
       </header>
 
       {productData && categoryData ? (
-        <div className="flex gap-6">
-          <div
-            className="max-h-[340px] w-full max-w-[415px] rounded-[20px] bg-center bg-cover"
-            style={{
-              backgroundImage: `url(${productData.product.attachments[0].url})`,
-            }}
-          />
-
-          <ProductEditForm
-            product={productData.product}
-            categories={categoryData.categories}
-          />
-        </div>
+        <ProductEditForm
+          product={productData.product}
+          categories={categoryData.categories}
+        />
       ) : (
         <div className="flex gap-6">
           <Skeleton className="w-[400px] h-[340px]" />

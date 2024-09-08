@@ -39,7 +39,7 @@ export interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   return (
-    <Card className="rounded-[20px] flex flex-col p-1 w-[calc(50%-16px)] relative hover:scale-105 transition-all">
+    <Card className="rounded-[20px] flex flex-col p-1 w-[calc(50%-16px)] relative border-solid border-2 border-transparent hover:border-blue-base transition-all">
       <Link to={`/products/edit/${product.id}`}>
         <div className="absolute top-3 right-3 flex gap-1 text-red-500">
           <StatusChip status={product.status} />
@@ -59,7 +59,9 @@ export function ProductCard({ product }: ProductCardProps) {
             </CardTitle>
             <p className="text-gray-500 font-bold">
               <span className="text-label-sm font-normal">R$</span>{' '}
-              {(product.priceInCents / 100).toLocaleString('pt-BR')}
+              {(product.priceInCents / 100).toLocaleString('pt-BR', {
+                minimumFractionDigits: 2,
+              })}
             </p>
           </div>
 
