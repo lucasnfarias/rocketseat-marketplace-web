@@ -3,6 +3,7 @@ import { AppLayout } from '@/pages/_layouts/app'
 import { AuthLayout } from '@/pages/_layouts/auth'
 import { Dashboard } from '@/pages/app/dashboard'
 import { Products } from '@/pages/app/products'
+import { ProductCreate } from '@/pages/app/products/create'
 import { ProductsEdit } from '@/pages/app/products/edit'
 import { Login } from '@/pages/auth/login'
 import { Register } from '@/pages/auth/register'
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
       { path: '/', element: <Dashboard /> },
       { path: '/products', element: <Products /> },
       { path: '/products/edit/:productId', element: <ProductsEdit /> },
+      { path: '/products/create', element: <ProductCreate /> },
     ],
   },
   {

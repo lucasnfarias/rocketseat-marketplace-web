@@ -1,10 +1,6 @@
 import { api } from '@/lib/axios'
 
-export interface UpdateProductParams {
-  productId: string
-}
-
-export interface UpdateProductBody {
+export interface CreateProductBody {
   title: string
   description: string
   priceInCents: number
@@ -12,7 +8,7 @@ export interface UpdateProductBody {
   attachmentsIds: string[]
 }
 
-export interface UpdateProductResponse {
+export interface CreateProductResponse {
   product: {
     id: string
     title: string
@@ -41,23 +37,20 @@ export interface UpdateProductResponse {
   }
 }
 
-export async function updateProduct({
-  params: { productId },
-  body: { title, description, priceInCents, categoryId, attachmentsIds },
-}: {
-  params: UpdateProductParams
-  body: UpdateProductBody
-}) {
-  const { data } = await api.put<UpdateProductResponse>(
-    `/products/${productId}`,
-    {
-      title,
-      description,
-      priceInCents,
-      categoryId,
-      attachmentsIds,
-    },
-  )
+export async function createProduct({
+  title,
+  description,
+  priceInCents,
+  categoryId,
+  attachmentsIds,
+}: CreateProductBody) {
+  const { data } = await api.post<CreateProductResponse>('/products', {
+    title,
+    description,
+    priceInCents,
+    categoryId,
+    attachmentsIds,
+  })
 
   return data
 }

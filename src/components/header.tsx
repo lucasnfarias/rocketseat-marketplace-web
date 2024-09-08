@@ -1,6 +1,8 @@
 import { AccountMenu } from '@/components/account-menu'
 import { NavLink } from '@/components/nav-link'
-import { ChartLine, Package } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { ChartLine, Package, Plus } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export function Header() {
   return (
@@ -18,7 +20,18 @@ export function Header() {
         </NavLink>
       </nav>
 
-      <AccountMenu />
+      <div className="flex items-center">
+        <Link to="/products/create">
+          <Button
+            type="button"
+            className="bg-orange-base text-white gap-2 rounded-[10px]"
+          >
+            <Plus className="w-4 h-4" />
+            Novo produto
+          </Button>
+        </Link>
+        <AccountMenu />
+      </div>
     </div>
   )
 }
