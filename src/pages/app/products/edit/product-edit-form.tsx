@@ -1,5 +1,7 @@
 import { GetCategoriesResponse } from '@/api/get-categories'
 import { GetProductResponse } from '@/api/get-product'
+import { GetProductsResponse } from '@/api/get-products'
+import { updateProduct, UpdateProductResponse } from '@/api/update-product'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -14,8 +16,12 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { StatusChip } from '@/pages/app/products/status-chip'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { z } from 'zod'
 
@@ -23,7 +29,7 @@ const productsEditForm = z.object({
   title: z.string(),
   price: z.string(),
   description: z.string(),
-  category: z.string(),
+  categoryId: z.string(),
 })
 
 type ProductsEditForm = z.infer<typeof productsEditForm>
@@ -34,6 +40,9 @@ interface ProductEditFormProps {
 }
 
 export function ProductEditForm({ product, categories }: ProductEditFormProps) {
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
   const {
     register,
     control,
@@ -47,15 +56,78 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
         .toLocaleString('pt-BR')
         .replace(/\./g, ''),
       description: product.description,
-      category: product.category.slug,
+      categoryId: product.category.id,
     },
   })
 
   const isSoldOrDeactivated = product.status !== 'available'
 
+  function updateProductOnCache({ product }: UpdateProductResponse) {
+    const productsListCache = queryClient.getQueriesData<
+      GetProductsResponse & GetProductResponse
+    >({
+      queryKey: ['products'],
+    })
+
+    productsListCache.forEach(([cacheKey, cacheData]) => {
+      if (!cacheData) return
+
+      if (cacheData.products) {
+        queryClient.setQueryData<GetProductsResponse>(cacheKey, {
+          ...cacheData,
+          products: cacheData.products.map((cacheProduct) => {
+            if (cacheProduct.id === product.id) {
+              return { ...cacheProduct, ...product }
+            }
+
+            return cacheProduct
+          }),
+        })
+      }
+
+      if (cacheData.product) {
+        queryClient.setQueryData<GetProductResponse>(cacheKey, {
+          product: { ...cacheData.product, ...product },
+        })
+      }
+    })
+  }
+
+  const { mutateAsync: updateProductsFn } = useMutation({
+    mutationFn: updateProduct,
+    async onSuccess({ product }) {
+      updateProductOnCache({ product })
+    },
+  })
+
   async function handleProductEdit(data: ProductsEditForm) {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.log(data)
+    try {
+      await updateProductsFn({
+        params: { productId: product.id },
+        body: {
+          title: data.title,
+          description: data.description,
+          priceInCents:
+            Number(data.price.replace(/\./g, '').replace(',', '.')) * 100,
+          categoryId: data.categoryId,
+          attachmentsIds: [product.attachments[0].id],
+        },
+      })
+
+      toast.success('Produto roduto atualizado com sucesso!')
+    } catch (error) {
+      console.error(error)
+      switch ((error as AxiosError).status) {
+        case 403:
+          toast.error('Você não é o dono desse produto.')
+          break
+        case 404:
+          toast.error('Produto não encontrado.')
+          break
+        default:
+          toast.error('Ocorreu um erro ao tentar atualizar o produto.')
+      }
+    }
   }
 
   return (
@@ -126,7 +198,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
             Categoria
           </Label>
           <Controller
-            name="category"
+            name="categoryId"
             control={control}
             render={({ field: { name, onChange, value } }) => {
               return (
@@ -143,7 +215,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                   <SelectContent>
                     {categories.map((category) => {
                       return (
-                        <SelectItem key={category.id} value={category.slug}>
+                        <SelectItem key={category.id} value={category.id}>
                           {category.title}
                         </SelectItem>
                       )
@@ -159,6 +231,8 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
               variant="outline"
               className="rounded-[10px] border-2 border-orange-base bg-transparent text-orange-base w-full"
               disabled={isSoldOrDeactivated}
+              type="button"
+              onClick={() => navigate('/products')}
             >
               Cancelar
             </Button>
