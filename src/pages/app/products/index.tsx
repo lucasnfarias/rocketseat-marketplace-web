@@ -23,9 +23,9 @@ export function Products() {
   })
 
   return (
-    <div className="w-full max-w-[1030px] mx-auto">
+    <div className="w-full max-w-[1100px] mx-auto">
       <Helmet title="Produtos" />
-      <header className="mt-16 mb-10">
+      <header className="mt-10 mb-10">
         <h1 className="text-title-md text-gray-500 mb-2">Seus produtos</h1>
         <p className="text-body-sm text-gray-300">
           Acesse gerencie a sua lista de produtos à venda

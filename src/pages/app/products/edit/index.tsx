@@ -105,9 +105,9 @@ export function ProductsEdit() {
   }
 
   return (
-    <div className="w-full max-w-[1030px] mx-auto">
+    <div className="w-full max-w-[1100px] mx-auto">
       <Helmet title="Editar produto" />
-      <header className="flex justify-between mt-6 mb-10">
+      <header className="flex justify-between mt-2 mb-10">
         <div>
           <Button
             type="button"
