@@ -20,7 +20,7 @@ export function Header() {
         </NavLink>
       </nav>
 
-      <div className="flex items-center">
+      <div className="flex items-center gap-4">
         <Link to="/products/create">
           <Button
             type="button"

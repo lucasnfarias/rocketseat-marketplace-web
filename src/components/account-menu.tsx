@@ -14,6 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Loader2, LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export function AccountMenu() {
   const navigate = useNavigate()
@@ -32,12 +33,25 @@ export function AccountMenu() {
     },
   })
 
+  async function handleSignOut() {
+    toast.promise(signOutFn(), {
+      loading: (
+        <div className="flex w-full items-center justify-between">
+          Deslogando...
+          <Loader2 className="ml-auto h-4 w-4 animate-spin" />
+        </div>
+      ),
+      success: 'Deslogando com sucesso!',
+      error: 'Ocorreu um erro ao tentar deslogar.',
+    })
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="flex select-none items-center border-none"
+          className="flex select-none items-center border-none rounded-[12px] m-0 p-0"
         >
           {isLoadingProfile ? (
             <Skeleton className="h-12 w-12" />
@@ -60,7 +74,7 @@ export function AccountMenu() {
           ) : (
             <div className="flex items-center">
               <AvatarImage avatar={profile?.seller.avatar} size="sm" />
-              <p className="ml-3 text-gray-300 text-body-sm">
+              <p className="ml-3 text-gray-300 text-body-sm font-normal">
                 {profile?.seller.name}
               </p>
             </div>
@@ -74,7 +88,7 @@ export function AccountMenu() {
           className="text-orange-base"
           disabled={isSigningOut}
         >
-          <button className="w-full" onClick={() => signOutFn()}>
+          <button className="w-full" onClick={handleSignOut}>
             <span className="text-action-sm font-semibold">Sair</span>
             {isSigningOut ? (
               <Loader2 className="ml-auto h-4 w-4 animate-spin" />

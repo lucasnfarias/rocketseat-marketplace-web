@@ -4,9 +4,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { ArrowRight, ImageUp } from 'lucide-react'
+import { ArrowRight, ImageUp, Loader2 } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -25,11 +25,11 @@ const RegisterForm = z
       .custom<FileList>()
       .refine((files) => files?.length, 'Avatar is mandatory.')
       .refine(
-        (files) => files[0]?.size <= MAX_FILE_SIZE,
+        (files) => files && files[0]?.size <= MAX_FILE_SIZE,
         `Max image size is 5MB.`,
       )
       .refine(
-        (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
+        (files) => files && ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
         'Only .jpg, .jpeg, .png and .webp formats are supported.',
       ),
     name: z.string().min(1, 'Name is mandatory.'),
@@ -51,7 +51,8 @@ export function Register() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    control,
+    formState: { errors, isSubmitting: isRegistering },
   } = useForm<RegisterForm>({
     resolver: zodResolver(RegisterForm),
   })
@@ -110,28 +111,52 @@ export function Register() {
           </div>
 
           <form onSubmit={handleSubmit(handleRegistration)}>
-            <div>
+            <div className="flex flex-col">
               <h3 className="text-gray-500 text-title-sm font-dm-sans mb-5">
                 Perfil
               </h3>
 
-              <Label
-                htmlFor="avatar"
-                className="flex items-center justify-center w-[120px] h-[120px] rounded-xl overflow-hidden bg-shape hover:cursor-pointer"
-              >
-                <ImageUp className="w-8 h-8 text-orange-base" />
-                <Input
-                  type="file"
-                  id="avatar"
-                  className=" hidden"
-                  {...register('avatar')}
-                />
-              </Label>
-              {errors.avatar && (
-                <p className="text-rose-600 text-xs mt-1">
-                  {errors.avatar.message?.toString()}
-                </p>
-              )}
+              <Controller
+                name="avatar"
+                control={control}
+                render={({ field: { name, onChange, value } }) => {
+                  return (
+                    <Label
+                      htmlFor="avatar"
+                      style={{
+                        backgroundImage: `url(${value && value[0] ? URL.createObjectURL(value[0]) : ''})`,
+                      }}
+                      className="z-0 group w-[120px] h-[120px] rounded-[20px] bg-center bg-cover hover:cursor-pointer transition-all relative"
+                    >
+                      {!value && (
+                        <div className="-z-10 absolute flex flex-col items-center justify-center w-full h-full bg-shape text-gray-300 rounded-[20px]">
+                          <ImageUp
+                            className="h-8 w-8 text-orange-base"
+                            strokeWidth={1.5}
+                          />
+                        </div>
+                      )}
+
+                      <div className="z-10 flex flex-col items-center justify-center w-full h-full bg-transparent text-transparent rounded-[20px] group-hover:bg-black group-hover:bg-opacity-30 group-hover:text-white">
+                        <ImageUp className="h-8 w-8" strokeWidth={1.5} />
+                      </div>
+
+                      <Input
+                        type="file"
+                        id="avatar"
+                        name={name}
+                        className="hidden"
+                        onChange={(e) => onChange(e.target.files)}
+                      />
+                      {errors.avatar && (
+                        <p className="text-rose-600 text-xs mt-1 absolute top-0 left-32 w-[200px]">
+                          {errors.avatar.message?.toString()}
+                        </p>
+                      )}
+                    </Label>
+                  )
+                }}
+              />
 
               <Label htmlFor="name" className="block mt-5">
                 Nome
@@ -149,7 +174,7 @@ export function Register() {
               )}
 
               <Label htmlFor="phone" className="flex mt-5">
-                senha
+                telefone
               </Label>
               <Input
                 type="tel"
@@ -216,9 +241,14 @@ export function Register() {
             <Button
               type="submit"
               className="h-[56px] flex items-center justify-between w-full bg-orange-base text-action-md text-white rounded-xl px-5 py-4 mt-12"
+              disabled={isRegistering}
             >
               Cadastrar
-              <ArrowRight className="w-5 h-5" />
+              {isRegistering ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <ArrowRight className="w-5 h-5" />
+              )}
             </Button>
           </form>
         </div>
