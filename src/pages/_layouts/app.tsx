@@ -14,8 +14,13 @@ export function AppLayout() {
       (error) => {
         if (isAxiosError(error)) {
           const status = error.response?.status
+          const message = error.response?.data.message
 
-          if (status === 401 || status === 403) {
+          if (
+            status === 401 ||
+            (status === 403 &&
+              message !== 'You are not the owner of this product.')
+          ) {
             toast.error('Parece que você não está autenticado :(', {
               description: 'Faça seu login novamente',
             })

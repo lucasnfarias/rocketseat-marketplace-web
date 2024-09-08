@@ -87,7 +87,7 @@ export function ProductsFilter() {
                     <SelectItem value="all">Todos os status</SelectItem>
                     <SelectItem value="available">Anunciado</SelectItem>
                     <SelectItem value="sold">Vendido</SelectItem>
-                    <SelectItem value="cancelled">Cancelado</SelectItem>
+                    <SelectItem value="cancelled">Desativado</SelectItem>
                   </SelectContent>
                 </Select>
               )

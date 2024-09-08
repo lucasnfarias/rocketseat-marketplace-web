@@ -14,6 +14,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { StatusChip } from '@/pages/app/products/status-chip'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { z } from 'zod'
@@ -37,7 +38,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
     register,
     control,
     handleSubmit,
-    formState: { errors, isSubmitting: isLoadingProductEdit },
+    formState: { isSubmitting: isLoadingProductEdit },
   } = useForm<ProductsEditForm>({
     resolver: zodResolver(productsEditForm),
     defaultValues: {
@@ -50,9 +51,10 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
     },
   })
 
-  const isSoldOrInactive = product.status !== 'available'
+  const isSoldOrDeactivated = product.status !== 'available'
 
-  function handleProductEdit(data: ProductsEditForm) {
+  async function handleProductEdit(data: ProductsEditForm) {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     console.log(data)
   }
 
@@ -79,7 +81,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                 type="text"
                 id="title"
                 placeholder="O nome do seu produto"
-                disabled={isSoldOrInactive}
+                disabled={isSoldOrDeactivated}
                 {...register('title')}
               />
             </div>
@@ -96,7 +98,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                 id="price"
                 placeholder="100,00"
                 className="pl-6"
-                disabled={isSoldOrInactive}
+                disabled={isSoldOrDeactivated}
                 {...register('price')}
               />
               <span className="absolute top-[50%] text-orange-base">R$</span>
@@ -113,7 +115,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
             id="description"
             className="resize-none mb-5"
             placeholder="Uma descrição épica aqui..."
-            disabled={isSoldOrInactive}
+            disabled={isSoldOrDeactivated}
             {...register('description')}
           />
 
@@ -132,7 +134,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                   name={name}
                   onValueChange={onChange}
                   value={value}
-                  disabled={isSoldOrInactive}
+                  disabled={isSoldOrDeactivated}
                 >
                   <SelectTrigger className="h-8 w-full">
                     <SelectValue placeholder="Status" />
@@ -156,16 +158,20 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
             <Button
               variant="outline"
               className="rounded-[10px] border-2 border-orange-base bg-transparent text-orange-base w-full"
-              disabled={isSoldOrInactive}
+              disabled={isSoldOrDeactivated}
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               className="rounded-[10px] bg-orange-base text-white w-full"
-              disabled={isSoldOrInactive}
+              disabled={isSoldOrDeactivated || isLoadingProductEdit}
             >
-              Salvar e atualizar
+              {isLoadingProductEdit ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                'Salvar e atualizar'
+              )}
             </Button>
           </div>
         </form>

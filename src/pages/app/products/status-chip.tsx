@@ -5,13 +5,13 @@ export interface StatusChipProps {
 const statusColor = {
   available: 'bg-blue-dark',
   sold: 'bg-success',
-  cancelled: 'bg-danger',
+  cancelled: 'bg-gray-300',
 }
 
 const statusTitle = {
   available: 'Anunciado',
   sold: 'Vendido',
-  cancelled: 'Cancelado',
+  cancelled: 'Desativado',
 }
 
 export function StatusChip({ status }: StatusChipProps) {

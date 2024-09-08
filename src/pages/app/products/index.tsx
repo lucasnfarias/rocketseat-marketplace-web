@@ -48,6 +48,12 @@ export function Products() {
                   />
                 )
               })}
+
+          {!isLoadingProducts && !result?.products.length && (
+            <h2 className="text-orange-base text-title-lg font-semibold w-[60%] text-center m-auto">
+              Você não tem nenhum produto cadastrado :(
+            </h2>
+          )}
         </div>
       </div>
     </div>

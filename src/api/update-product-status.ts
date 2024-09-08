@@ -1,12 +1,12 @@
 import { api } from '@/lib/axios'
 
-export interface GetProductsQuery {
-  status: 'available' | 'sold' | 'cancelled' | null
-  search: string | null
+export interface UpdateProductStatusParams {
+  productId: string
+  status: 'available' | 'sold' | 'cancelled'
 }
 
-export interface GetProductsResponse {
-  products: {
+export interface UpdateProductStatusResponse {
+  product: {
     id: string
     title: string
     description: string
@@ -31,16 +31,16 @@ export interface GetProductsResponse {
       id: string
       url: string
     }[]
-  }[]
+  }
 }
 
-export async function getProducts({ status, search }: GetProductsQuery) {
-  const { data } = await api.get<GetProductsResponse>('/products/me', {
-    params: {
-      status,
-      search,
-    },
-  })
+export async function updateProductStatus({
+  productId,
+  status,
+}: UpdateProductStatusParams) {
+  const { data } = await api.patch<UpdateProductStatusResponse>(
+    `/products/${productId}/${status}`,
+  )
 
   return data
 }
